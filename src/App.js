@@ -1,3 +1,4 @@
+import React from "react";
 import Expenseitem from "./components/Expenseitem";
 
 function App() {
@@ -32,11 +33,17 @@ function App() {
     },
   ];
 
-  return (
-    <div>
-      <Expenseitem data = {expenses}/>
-    </div>
+  return React.createElement(
+    'div',
+    {},
+    React.createElement(Expenseitem,{data:expenses})
   );
 }
 
 export default App;
+
+// return (
+//   <div>
+//     <Expenseitem data = {expenses}/>
+//   </div>
+// );

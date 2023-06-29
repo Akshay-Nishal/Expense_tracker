@@ -10,7 +10,8 @@ export default function Expenseitem(props) {
         return(
           <div key={ele.id} className="expense-item">
             <ExpenseDate Date={ele.date}/>
-            <ExpenseDetails title = {ele.title} location={ele.LocationOfExpenditure} price = {ele.price}/>
+            {console.log(ele.amount)}
+            <ExpenseDetails title = {ele.title} location={ele.LocationOfExpenditure} amount = {ele.amount}/>
           </div>     
         )
       })}
