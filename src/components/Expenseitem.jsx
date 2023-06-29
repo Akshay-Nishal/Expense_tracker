@@ -1,10 +1,13 @@
+import './Expenseitem.css'
+
 export default function Expenseitem() {
   return (
-    <div>
-        <h1>Expense Items</h1>
-        <p>Food Rs 10</p>
-        <p>Petrol 100</p>
-        <p>Movies Rs 200</p>
+    <div className="expense-item">
+      <div>June 29th 2023</div>
+      <div className="expense-item__description">
+        <h2>Car Insurance</h2>
+        <div className="expense-item__price">$250</div>
+      </div>
     </div>
   )
 }
