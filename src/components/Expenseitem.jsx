@@ -2,7 +2,7 @@ import ExpenseDate from './ExpenseDate'
 import ExpenseDetails from './ExpenseDetails'
 import './Expenseitem.css'
 
-export default function Expenseitem(props) {
+const Expenseitem =(props)=> {
   let data = props.data
   return (
     <div>
@@ -19,3 +19,4 @@ export default function Expenseitem(props) {
 
   )
 }
+export default Expenseitem

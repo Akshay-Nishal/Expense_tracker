@@ -1,7 +1,7 @@
 import React from "react";
 import Expenseitem from "./components/Expenseitem";
 
-function App() {
+const App = () => {
   const expenses = [
     {
       id: 'e1',

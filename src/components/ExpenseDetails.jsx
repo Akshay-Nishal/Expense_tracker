@@ -1,4 +1,4 @@
-export default function ExpenseDetails(props) {
+const ExpenseDetails = (props) => {
     let {title,location,amount} = props
     console.log(title,location,amount)
   return (
@@ -9,3 +9,5 @@ export default function ExpenseDetails(props) {
     </div>
   )
 }
+
+export default ExpenseDetails
