@@ -1,6 +1,5 @@
 import React from "react";
 import Expenseitem from "./components/Expenses/Expenseitem";
-import Expenses from "./components/Expenses/Expenses";
 
 const App = () => {
   const expenses = [
@@ -33,17 +32,18 @@ const App = () => {
       LocationOfExpenditure: 'California'
     },
   ];
-  return (
-      <div>
-        <Expenses data = {expenses}/>
-      </div>
-    );
+
+  return React.createElement(
+    'div',
+    {},
+    React.createElement(Expenseitem,{data:expenses})
+  );
 }
 
+export default App;
 
-  export default App;
-  // return React.createElement(
-  //   'div',
-  //   {},
-  //   React.createElement(Expenseitem,{data:expenses})
-  // );
+// return (
+//   <div>
+//     <Expenseitem data = {expenses}/>
+//   </div>
+// );
