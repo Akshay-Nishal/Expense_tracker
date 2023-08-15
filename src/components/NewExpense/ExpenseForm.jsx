@@ -38,8 +38,23 @@ function ExpenseForm() {
         // })
         // console.log(userInput.date)
     }
-  return (
-    <form>
+    const submitHandler = (e) =>{
+        e.preventDefault()
+        const enteredData = {
+            tit : title,
+            amn : amount,
+            dat : date
+        }
+        console.log(enteredData)
+        setTitle(undefined)
+        document.getElementById('title').value=''
+        setAmount(undefined)
+        document.getElementById('amount').value=''
+        setDate(undefined)
+        document.getElementById('date').value=''
+    }
+   return (
+    <form onSubmit={submitHandler}>
         {console.log(title,amount,date)}
         <div className='new-expense__controls'>
             <div className='new-expense__control'>
