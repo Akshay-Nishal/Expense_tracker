@@ -1,10 +1,26 @@
 import './ExpenseDate.css'
 
 const ExpenseDate = (props) => {
-    let date = props.Date
-    const month = date.toLocaleString('en-us',{month:'long'})
-    const day = date.toLocaleString('en-us', {day:'2-digit'})
-    const year = date.getFullYear()
+  let date = props.Date
+  // {console.log(typeof date)}
+  let month 
+  let day 
+  let year 
+  if(typeof date === 'object'){
+      month = date.toLocaleString('en-us',{month:'long'})
+      day = date.toLocaleString('en-us', {day:'2-digit'})
+      year = date.getFullYear()
+    }
+    else{
+      // let d = date.split('-')
+      {console.log(typeof date)}
+      month = 12
+      day = 25
+      year = 2022
+      // month = parseInt(d[0])
+      // day = parseInt(d[1])
+      // year = parseInt(d[2])
+    }
   return (
     <div  className='expense-date'>
         <div className='expense-date__month'>{month}</div>
