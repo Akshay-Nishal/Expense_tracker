@@ -12,14 +12,11 @@ const ExpenseDate = (props) => {
       year = date.getFullYear()
     }
     else{
-      // let d = date.split('-')
-      {console.log(typeof date)}
-      month = 12
-      day = 25
-      year = 2022
-      // month = parseInt(d[0])
-      // day = parseInt(d[1])
-      // year = parseInt(d[2])
+      // {console.log(typeof date)}
+      let d = date.split('-')
+      month = parseInt(d[0])
+      day = parseInt(d[1])
+      year = parseInt(d[2])
     }
   return (
     <div  className='expense-date'>

@@ -2,9 +2,12 @@ import ExpenseDate from './ExpenseDate'
 import ExpenseDetails from './ExpenseDetails'
 import './Expenseitem.css'
 import Card from '../UI/Card'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { ExpenseContext } from '../../Contexts/expenseContext'
+
 const Expenseitem =(props)=> {
   // console.log(props)
+  let {exs,setExpenses} = useContext(ExpenseContext)
   const [data,setData] = useState(props)
   const [title,setTitle] = useState(props.title)
   const [amount,setAmount] = useState(props.amount)
@@ -13,9 +16,16 @@ const Expenseitem =(props)=> {
       setTitle('Title Updated')
     }
     function delItem(id) {
-      let x = document.getElementById(id)
-      console.log(x)
-      x.remove()
+      // let x = document.getElementById(id)
+      // console.log(x)
+      // x.remove()
+      let tem = []
+      exs.forEach(e=>{
+        if(e.id!==id){
+            tem.push(e)
+        }
+      })
+      setExpenses(tem)
     }
     const updateAmount = (num) => {
       console.log("Updated the title")

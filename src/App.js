@@ -1,33 +1,33 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 // import Expenseitem from "./components/Expenses/Expenseitem";
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
+import { ExpenseContext } from './Contexts/expenseContext';
 
 const App = () => {
-  const [expenses,setExps] = useState(defaultExpenses)
-
-  const addNewExpense = (newExpense) =>{
-    console.log("In App.JS")
-    // console.log("NEW Expense : " , newExpense)
-    setExps((prevState) => {return [...prevState, newExpense]})
-    // let temp = expenses
-    // temp.push(newExpense)
-    // setExps(temp)
-    // console.log(expenses)
-    console.log("Updated : ", expenses)
-  }
-
+  let {exs,setExpenses} = useContext(ExpenseContext)
+  // console.log("Expense Context Data",exs)
+  // const addNewExpense = (newExpense) =>{
+  //   // console.log("In App.JS : ", newExpense)
+  //   setExpenses(prevx =>[...prevx,newExpense])
+  // }
+  
   return (
-      <div>
-        <NewExpense onAddExpense = {addNewExpense}/>
-        <Expenses data = {expenses}/>
+    <div>
+        {/* <NewExpense onAddExpense = {addNewExpense}/> */}
+        {/* <Expenses data = {exs}/> */}
+        <NewExpense />
+        <Expenses />
       </div>
     );
-}
-export default App;
-
-
+  }
+  export default App;
   
+  
+  
+// const [expenses,setExps] = useState(defaultExpenses)
+// setExps(prevExps => [...prevExps,newExpense])
+// console.log("Updated : ", expenses)
 const defaultExpenses = [
 {
   id: 'e0',
