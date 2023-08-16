@@ -19,15 +19,14 @@ function Expenses(props) {
       {
         exs.map((d)=>{
           return(
-            <div key={d.id}>
             <Expenseitem
+            div key={d.id}
             id = {d.id}
             title= {d.title}
             amount = {d.amount}
             date = {d.date}
             LocationOfExpenditure = {d.LocationOfExpenditure}
             />
-            </div>
           )
         })
       }
