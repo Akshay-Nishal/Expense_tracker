@@ -21,14 +21,14 @@ const defaultExpenses = [
       id: 'TP20',
       title: 'Toilet Paper',
       amount: 94.12,
-      date: new Date(2020, 7, 14),
+      date: new Date(2019, 7, 14),
       LocationOfExpenditure: 'London'
     },
     { 
       id: 'GM15', 
       title: 'Gaming Monitor', 
       amount: 799.49, 
-      date: new Date(2021, 2, 12),
+      date: new Date(2020, 2, 12),
       LocationOfExpenditure: 'Delhi'
     },
     {
@@ -42,7 +42,7 @@ const defaultExpenses = [
       id: 'WD486',
       title: 'Wooden Desk',
       amount: 450,
-      date: new Date(2021, 5, 12),
+      date: new Date(2022, 5, 12),
       LocationOfExpenditure: 'California'
     },
     ]

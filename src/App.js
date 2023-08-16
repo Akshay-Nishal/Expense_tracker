@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 import { ExpenseContext } from './Contexts/expenseContext';
+import { FilterProvider } from './Contexts/filterContext';
 
 const App = () => {
   let {exs,setExpenses} = useContext(ExpenseContext)
@@ -17,7 +18,9 @@ const App = () => {
         {/* <NewExpense onAddExpense = {addNewExpense}/> */}
         {/* <Expenses data = {exs}/> */}
         <NewExpense />
-        <Expenses />
+        <FilterProvider>
+          <Expenses />
+        </FilterProvider>
       </div>
     );
   }
