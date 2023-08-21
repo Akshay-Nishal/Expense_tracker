@@ -5,7 +5,16 @@ function ExpenseForm(props) {
     const [enteredamount,setAmount] = useState()
     const [entereddate,setDate] = useState()
     const [enteredLocation,setLocation] = useState()
-    const [activeForm,setActiveForm] = useState(false)
+    const [activeForm,setActiveForm] = useState(true)
+
+    const calcDate = (tem) =>{
+        let d = tem.split('-')
+        console.log(d)
+        let x = new Date(parseInt(d[0]), parseInt(d[1]), parseInt(d[2]))
+        console.log(x)
+        return(x)
+
+    }
 
     const titleChangeHandler = (event) =>{
         setTitle(event.target.value)
@@ -15,6 +24,7 @@ function ExpenseForm(props) {
     }
     const dateChangeHandler = (event) =>{
         setDate(event.target.value)
+        // calcDate(entereddate)
     }
     const locationChangeHandler = (event) =>{
         setLocation(event.target.value)
@@ -24,10 +34,10 @@ function ExpenseForm(props) {
         const enteredData = {
             title :  enteredtitle,
             amount : enteredamount,
-            date :   entereddate,
+            date :   calcDate(entereddate),
             LocationOfExpenditure: enteredLocation
         }
-        // console.log(enteredData)
+        console.log(enteredData)
         if(enteredData.title && enteredData.amount && enteredData.date && enteredData.LocationOfExpenditure){
             props.onSaveExpenseData(enteredData)
             setTitle('')

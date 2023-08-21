@@ -7,6 +7,7 @@ import { ExpenseContext } from '../../Contexts/expenseContext'
 
 const Expenseitem =(props)=> {
   // console.log(props)
+  // console.log(props.date)
   let {exs,setExpenses} = useContext(ExpenseContext)
   const [data,setData] = useState(props)
   const [title,setTitle] = useState(props.title)

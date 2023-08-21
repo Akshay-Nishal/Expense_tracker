@@ -3,6 +3,8 @@ import Expenseitem from './Expenseitem'
 import './Expenseitem.css'
 import { ExpenseContext } from '../../Contexts/expenseContext'
 import ExpenseFilter from './ExpenseFilter'
+import Chart from '../Charts/Chart'
+import ExpensesChart from './ExpensesChart'
 // import { FilterContext } from '../../Contexts/filterContext'
 // import Card from '../UI/Card'
 
@@ -24,6 +26,7 @@ function Expenses(props) {
         :
         <></>
       }
+      <ExpensesChart expenses = {filteredExpenses}/>
       {
         filteredExpenses.map((d)=>{  
           return(
