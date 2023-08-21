@@ -3,12 +3,15 @@ import { createContext,useState} from "react";
 // the actual value that you need to access.
 export const ExpenseContext= createContext({
     exs: null,
-    setExpenses:() => null
+    setExpenses:() => null,
+    filteredExpenses:null,
+    setFilteredExpense:() =>null
 }) 
 /* current context value, as given by the nearest context provider for the given context. */
 export const ExpenseProvider = ({children})=>{
     const [exs,setExpenses] = useState(defaultExpenses)
-    const value = {exs,setExpenses}
+    const [filteredExpenses,setFilteredExpense] = useState(defaultExpenses)
+    const value = {exs,setExpenses,filteredExpenses,setFilteredExpense}
 
 
     return <ExpenseContext.Provider value={value}>{children}</ExpenseContext.Provider>

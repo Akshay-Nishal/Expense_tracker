@@ -85,3 +85,11 @@
   .Del{
     background-color: Red;
   }
+
+
+  .expenses-alert{
+    color: white;
+    font-size: 17px;
+    margin-top: 15px;
+    margin-left: 20px;
+  }
