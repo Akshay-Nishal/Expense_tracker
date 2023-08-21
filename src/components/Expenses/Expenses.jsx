@@ -8,7 +8,7 @@ import ExpenseFilter from './ExpenseFilter'
 
 function Expenses(props) {
   let {exs,setExpenses,filteredExpenses,setFilteredExpense} = useContext(ExpenseContext)
-  console.log(filteredExpenses.length)
+  // console.log(filteredExpenses.length)
   // let {filterYear,setFilterYear} = useContext(FilterContext)
   // useEffect(()=>{
   // },[exs])
