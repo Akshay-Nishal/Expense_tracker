@@ -13,7 +13,7 @@ function Logout() {
   return (
     <div className='logoutDiv'>
         <center>
-        <h2>Welcome {userCtx.currentUserData['email']}</h2>
+        <h2>Welcome {userCtx.currentUserData.displayName?userCtx.currentUserData.displayName : 'User'}</h2>
         <button onClick={logoutHandler}>Logout</button>
         </center>
     </div>

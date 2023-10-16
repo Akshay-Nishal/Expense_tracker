@@ -1,0 +1,51 @@
+.title-div{
+    padding: 40px;
+    background-color: grey;
+    font-family: 'Martian Mono', monospace;
+}
+.title-div h1{
+    font-size: 50px;
+    font-weight: 900;
+}
+
+.logoutButton{
+    margin-right: 15px;
+}
+
+.NavBar{
+    text-decoration: none;
+    background-color: rgb(35, 35, 35);
+    padding: 25px 50px;
+    color: white;
+    font-size: 25px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+a{ 
+    text-decoration: none !important;
+    color: white;
+}
+
+.NavBar h2{
+    font-size: 25px;
+}
+
+.rightNav  button{
+    margin-left: 20px;
+    cursor: pointer;
+    transition: .5s;
+}
+.rightNav  button:hover{
+    background-color: rgb(255, 115, 0);
+    border: 2px solid red;
+}
+.cancel:hover{
+    background-color: rgb(255, 115, 0);
+    border: 2px solid red;
+}

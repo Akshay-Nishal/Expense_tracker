@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 // import Expenseitem from "./components/Expenses/Expenseitem";
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
+import { BrowserRouter, Route, Link, NavLink, Routes, Navigate} from 'react-router-dom';
 import { ExpenseContext } from './Contexts/expenseContext';
-import { FilterProvider } from './Contexts/filterContext';
 import { UserContext } from './Contexts/userContext';
 import LoginPage from './components/Login/LoginPage';
-import Logout from './components/Logout/Logout';
+import HeaderNav from './components/NavigationBar/HeaderNav';
+import Welcome from './components/NavigationBar/Welcome';
+import ExpenseApp from './components/Expenses/ExpenseApp';
+import ProfilePage from './components/Profile/ProfilePage';
 
 const App = () => {
   let {exs,setExpenses} = useContext(ExpenseContext)
@@ -29,26 +32,26 @@ const App = () => {
   }
   
   return (
-    <div>
-      {!welcomeShow && <div style={{position:'absolute', background:'#818181',padding:'50px' , width:"100%"}}>
-        <center>
-        <h2 >Welcome to Expense Tracker App</h2>
-        <button onClick={welcomeClose} style={{marginTop:'50px'}}>Ok</button>
-        </center>
-      </div>}
-      {
-        userCtx.isLogin?
-        <>  
-      <Logout/>
-      <NewExpense />
-      <FilterProvider>
-        <Expenses />
-      </FilterProvider>
-      </>
+    <BrowserRouter>
+      {welcomeShow && <Welcome welcomeClose={welcomeClose}/>}
+      <HeaderNav/>
+
+      <Routes>
+      {(userCtx.isLogin)?
+        <>
+        <Route path="/" element={<ExpenseApp/>}t ></Route>
+        { userCtx.isLogin && <Route path="/profile" element={<ProfilePage/>} ></Route>}
+        { !userCtx.isLogin && <Route path="/login" element={<LoginPage/>} ></Route>}
+        <Route path="*" element={<Navigate to='/'/>} ></Route>
+        </>
         :
-        <LoginPage/>
-      }
-      </div>
+        <>
+        <Route path="/login" element={<LoginPage/>} ></Route>
+        <Route path="*" element={<Navigate to='/login'/>} ></Route>
+        </>
+        }
+      </Routes>
+    </BrowserRouter>
     );
   }
   export default App;

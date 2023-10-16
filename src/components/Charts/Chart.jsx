@@ -13,7 +13,7 @@ function Chart(props) {
             value={dataPoint.value} 
             maxValue={totalMaximum} 
             label={dataPoint.label} 
-        />)}
+        />)}  
     </div>
   )
 }
