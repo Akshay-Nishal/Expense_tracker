@@ -61,10 +61,9 @@ const LoginForm = () => {
     event.preventDefault()
     const enteredEmail = emailInputRef.current.value
     const enteredPass = passInputRef.current.value
-    const enteredConfPass = confPassRef.current.value
     // console.log("Login ",enteredEmail,enteredPass)
     if(isLogin){
-        fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
+      fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
         {
             method:'POST',
             body:JSON.stringify({
@@ -73,89 +72,91 @@ const LoginForm = () => {
                 returnSecureToken:true
             }),
             headers:{
-                'Content-Type':'application/json'
+              'Content-Type':'application/json'
             }
-        })
-        .then(res=>{
+          })
+          .then(res=>{
             setLoading(false)
             if(res.ok){
-                return(res.json())
+              return(res.json())
             }
             else{
-                return res.json().then(data=>{
-                    let errorMessage = 'Authentication Failed!'
-                    throw new Error(errorMessage)
-                })
+              return res.json().then(data=>{
+                let errorMessage = 'Authentication Failed!'
+                throw new Error(errorMessage)
+              })
             }
-        })
+          })
         .then(data=>{
-            // console.log(data)
-            userCtx.setlogin(true)
-            userCtx.setCurrentUserData(data)
-            localStorage.setItem('isLogin',true)
-            localStorage.setItem('currentUserData',JSON.stringify(data))
-            localStorage.setItem('currentEmail',enteredEmail.replace("@",'').replace('.',''))
+          // console.log(data)
+          userCtx.setlogin(true)
+          userCtx.setCurrentUserData(data)
+          localStorage.setItem('isLogin',true)
+          localStorage.setItem('currentUserData',JSON.stringify(data))
+          localStorage.setItem('currentEmail',enteredEmail.replace("@",'').replace('.',''))
+            // window.alert("Welcome To Expence Tracker")
             // var ctime = new Date()
             // localStorage.setItem('time',ctime.getMinutes())
-        })
-        .catch(error=>{
+          })
+          .catch(error=>{
             window.alert(error)
             console.log(error)
-        })
-
-    
-
-    }
+          })
+          
+          
+          
+        }
     else{
-
-        fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
-        {
+      const enteredConfPass = confPassRef.current.value
+          fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+          {
             method:'POST',
             body:JSON.stringify({
-                email:enteredEmail,
-                password:enteredPass,
-                returnSecureToken:true
+              email:enteredEmail,
+              password:enteredPass,
+              returnSecureToken:true
             }),
             headers:{
-                'Content-Type':'application/json'
+              'Content-Type':'application/json'
             }
         })
         .then(res=>{
-            setLoading(false)
-            if(res.ok){
-                return(res.json())
-            }
-            else{
-                return res.json().then(data=>{
-                    let errorMessage = 'Email Already Exists!'
-                    throw new Error(errorMessage)
-                    
-                })
-            }
+          setLoading(false)
+          if(res.ok){
+            return(res.json())
+          }
+          else{
+            return res.json().then(data=>{
+              let errorMessage = 'Email Already Exists!'
+              throw new Error(errorMessage)
+              
+            })
+          }
         })
         .then(data=>{
-            console.log(data)
-            userCtx.setlogin(true)
-            userCtx.setCurrentUserData(data)
-            localStorage.setItem('isLogin',true)
-            localStorage.setItem('currentUserData',JSON.stringify(data))
-            localStorage.setItem('currentEmail',enteredEmail.replace("@",'').replace('.',''))
+          console.log(data)
+          userCtx.setlogin(true)
+          userCtx.setCurrentUserData(data)
+          localStorage.setItem('isLogin',true)
+          localStorage.setItem('currentUserData',JSON.stringify(data))
+          localStorage.setItem('currentEmail',enteredEmail.replace("@",'').replace('.',''))
         })
         .catch(error=>{
-            window.alert(error)
-            console.log(error)
+          window.alert(error)
+          console.log(error)
         })
+      }
     }
-  }
-
-  let content = <button onClick={loginFormSubmitHandler}>{isLogin?'Login':'Create Account'}</button>
-
-  if (isLoading) {
-    content = <p style={{color:'white'}} >Sending Request...</p>;
-  }
-
-  return (
-    <section className={classes.auth}>
+    
+    
+    let content = <button onClick={loginFormSubmitHandler}>{isLogin?'Login':'Create Account'}</button>
+    
+    if (isLoading) {
+      content = <p style={{color:'white'}} >Sending Request...</p>;
+    }
+    
+    return (
+      <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
       <form >
 
