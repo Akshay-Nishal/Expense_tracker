@@ -65,18 +65,18 @@ function ProfilePage() {
         }
 
     }
-    // useEffect(() => {
-    //     let id=userCtx.currentUserData['idToken']
-    //     axios.post(`${lookupUrl}${API_KEY}`,{
-    //         idToken:id
-    //     })
-    //     .then(res=>{
-    //         console.log(res.data.users)
-    //         nameRef.current.value=res.data.users[0].displayName
-    //         photoUrlRef.current.value=res.data.users[0].photoUrl
+    useEffect(() => {
+        let id=userCtx.currentUserData['idToken']
+        axios.post(`${lookupUrl}${API_KEY}`,{
+            idToken:id
+        })
+        .then(res=>{
+            console.log(res.data.users)
+            nameRef.current.value=res.data.users[0].displayName
+            photoUrlRef.current.value=res.data.users[0].photoUrl
 
-    //     })
-    // }, [])
+        })
+    }, [])
     
 
   return (
