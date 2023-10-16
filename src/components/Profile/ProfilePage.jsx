@@ -7,6 +7,7 @@ import './ProfilePage.css'
 const updateUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:update?key='
 const API_KEY = 'AIzaSyD_wbBxYY-wn1p-CwM8sMA8OSqKorbLUSI'
 const lookupUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key='
+const verifyEmail = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key='
 
 
 
@@ -14,6 +15,21 @@ function ProfilePage() {
     const userCtx = useContext(UserContext)
     const nameRef = useRef()
     const photoUrlRef = useRef()
+
+    const VerifyEmail=()=>{
+        let id=userCtx.currentUserData['idToken']
+        console.log("Verify")
+        axios.post(`${verifyEmail}${API_KEY}`,{
+            requestType : "VERIFY_EMAIL",
+            idToken : id,
+        })
+        .then(res=>{console.log(res)})
+        .catch(err=>{
+            console.log(err.message)
+            window.alert(err.message)
+        })
+
+    }
 
     const updateProfile =(event)=>{
         event.preventDefault()
@@ -49,18 +65,18 @@ function ProfilePage() {
         }
 
     }
-    useEffect(() => {
-        let id=userCtx.currentUserData['idToken']
-        axios.post(`${lookupUrl}${API_KEY}`,{
-            idToken:id
-        })
-        .then(res=>{
-            console.log(res.data.users)
-            nameRef.current.value=res.data.users[0].displayName
-            photoUrlRef.current.value=res.data.users[0].photoUrl
+    // useEffect(() => {
+    //     let id=userCtx.currentUserData['idToken']
+    //     axios.post(`${lookupUrl}${API_KEY}`,{
+    //         idToken:id
+    //     })
+    //     .then(res=>{
+    //         console.log(res.data.users)
+    //         nameRef.current.value=res.data.users[0].displayName
+    //         photoUrlRef.current.value=res.data.users[0].photoUrl
 
-        })
-    }, [])
+    //     })
+    // }, [])
     
 
   return (
@@ -75,6 +91,7 @@ function ProfilePage() {
             <br />
             <button>Update</button>
         </form>
+        <button onClick={VerifyEmail} style={{marginLeft:'50px'}}>Verify Email</button>
     </div>
   )
 }
