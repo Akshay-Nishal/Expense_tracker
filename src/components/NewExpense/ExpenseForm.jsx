@@ -35,7 +35,7 @@ function ExpenseForm(props) {
                 amount : enteredAmount,
                 category : enteredCategory
             }
-            console.log(enteredData)
+            // console.log(enteredData)
             expCtx.addExpence(enteredData)
         }
         else{
@@ -57,11 +57,11 @@ return (
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
                     <label htmlFor="title">Description</label>
-                    <input id='title' ref={descriptionRef} type="text" />
+                    <input id='title' defaultValue={'Momos'} ref={descriptionRef} type="text" />
                 </div>
                 <div className='new-expense__control'>
                     <label htmlFor="amount">Amount</label>
-                    <input id='amount' ref={moneyRef} type="number" min="0.1" step="0.1"/>
+                    <input id='amount' defaultValue={60} ref={moneyRef} type="number" min="0.1" step="0.1"/>
                 </div>
                 <div className='new-expense__control'>
                     <label htmlFor="category">Category</label>

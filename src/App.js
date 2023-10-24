@@ -10,9 +10,10 @@ import HeaderNav from './components/NavigationBar/HeaderNav';
 import Welcome from './components/NavigationBar/Welcome';
 import ExpenseApp from './components/Expenses/ExpenseApp';
 import ProfilePage from './components/Profile/ProfilePage';
+import axios from 'axios';
 
 const App = () => {
-  let {exs,setExpenses} = useContext(ExpenseContext)
+  let expCtx = useContext(ExpenseContext)
   const userCtx = useContext(UserContext)
   const [welcomeShow,setWelcome]=useState(false)
   const [login,setlogin] = useState(false)
@@ -23,7 +24,19 @@ const App = () => {
       setWelcome(true)
       userCtx.setlogin(true)
       userCtx.setCurrentUserData(JSON.parse(localStorage.getItem('currentUserData')))
-      // setlogin(true)
+      axios.get(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`).then(res=>{
+        if(res.data!=null){
+          console.log(res.data)
+          let d = []
+          let k = ''
+          for (let key in res.data){
+            k = key
+          }
+          d=res.data[k].expences
+          console.log(d)
+          expCtx.onRefresh(d)
+        }
+      })
     }
   }, [])
   
@@ -33,7 +46,7 @@ const App = () => {
   
   return (
     <BrowserRouter>
-      {welcomeShow && <Welcome welcomeClose={welcomeClose}/>}
+      {!welcomeShow && <Welcome welcomeClose={welcomeClose}/>}
       <HeaderNav/>
 
       <Routes>

@@ -1,61 +1,37 @@
+import axios from "axios";
 import { createContext,useReducer,useState} from "react";
 
 
 export const ExpenseContext= createContext({
     expences: [],
     addExpence:(item) => null,
-    removeExpence:(id) => null
+    removeExpence:(id) => null,
+    onRefresh:(data)=>null
 
 }) 
 
+const uploadData =(items)=>{
+  axios.post(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`,{
+    expences:items
+  })
+  .then(res=>{
+    console.log(res)
+  })
+  .catch(err=>{
+    console.log(err.message)
+  })
+}
 
 const defaultExpenses = {
-  expences:[
-  {
-    id: 'TP20',
-    description: 'Toilet Paper',
-    amount: 94.12,
-    category:'Grocery'
-  },
-  { 
-    id: 'GM15', 
-    description: 'Gaming Monitor', 
-    amount: 799.49, 
-    category:'Others'
-  },
-  {
-    id: 'CI256',
-    description: 'Car Insurance',
-    amount: 294.67,
-    category:'Travel'
-  },
-  {
-    id: 'WD486',
-    description: 'Wooden Desk',
-    amount: 450,
-    category:'Others'
-  },
-  { 
-    id: 'CL23', 
-    description: 'Shirt', 
-    amount: 120.00, 
-    category:'Clothes'
-  },
-  { 
-    id: 'FB05', 
-    description: 'Fast Food', 
-    amount: 25.80, 
-    category:'Food'
-  },
-  ]}
+  expences:[]}
 
 
 const expenceReducer = (state,action) =>{
   let newList = state.expences
   if(action.type==='Add'){
-    console.log("Adding Item")
-    console.log(action.item)
     newList.push(action.item)
+    uploadData(newList)
+
     return{
       expences:newList
     }
@@ -63,6 +39,13 @@ const expenceReducer = (state,action) =>{
   if(action.type==='Del'){
     console.log("Deleting Item")
     console.log(action.id)
+  }
+  if(action.type==='SetData'){
+    console.log("Fetched data from firebase : ")
+    console.log(action.data)
+    return{
+      expences:action.data
+    }
   }
   return(defaultExpenses)
 
@@ -77,10 +60,14 @@ export const ExpenseProvider = ({children})=>{
   const removeExp = (id) =>{
     dispatchState({type:'Del',id:id})
   }
+  const setData = (data) =>{
+    dispatchState({type:'SetData',data:data})
+  }
     const value = 
     { expences:expenceState.expences,
       addExpence:addExp,
-      removeExpence:removeExp
+      removeExpence:removeExp,
+      onRefresh:setData,
     }
 
 
