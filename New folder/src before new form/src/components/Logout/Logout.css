@@ -1,0 +1,15 @@
+.logoutDiv{
+    background-color: grey;
+    padding: 15px;
+}
+
+.logoutDiv button{
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.logoutDiv button:hover{
+    background-color: rgb(255, 103, 103);
+    border: 2px solid red;
+}

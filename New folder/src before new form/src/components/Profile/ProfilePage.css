@@ -1,0 +1,33 @@
+
+.profilePage form{
+    margin: 50px;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: rgb(84, 84, 84);
+}
+
+.profilePage label{
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.profilePage input{
+    padding: 2px 10px;
+    font-size: 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 7px;
+}
+
+.profilePage button{
+    background-color: rgb(0, 236, 0);
+    border: 2px solid rgb(0, 78, 0);
+    margin-top: 20px;
+    margin-left: -2px;
+    font-size: 20px;
+}
+
+.profilePage button:hover{
+    background-color: rgb(1, 166, 1);
+}

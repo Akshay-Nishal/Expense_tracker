@@ -13,15 +13,12 @@ function NewExpense(props) {
 
   let {exs,setExpenses} = useContext(ExpenseContext)
   const addNewExpense = (newExpense) =>{
-    console.log('Adding')
     setExpenses(prevx =>[...prevx,newExpense])
-    console.log(exs)
-    
   }
 
   const saveExpenseDataHandeler = (enteredExpenseData) =>{
     let code = ''
-    let s = enteredExpenseData.description.split(' ')
+    let s = enteredExpenseData.title.split(' ')
     s.forEach(cc=>{
       let temp = cc.split('')
       code = code+temp[0]
@@ -31,6 +28,8 @@ function NewExpense(props) {
       id: code,
       ...enteredExpenseData,
     }
+    // console.log(expenseData)
+    // props.onAddExpense(expenseData)
     addNewExpense(expenseData)
   }
 

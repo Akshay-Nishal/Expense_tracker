@@ -1,42 +1,49 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import './ExpenseForm.css'
-import { ExpenseContext } from '../../Contexts/expenseContext'
-
-
 function ExpenseForm(props) {
-    const expCtx = useContext(ExpenseContext)
+    const [enteredtitle,setTitle] = useState()
+    const [enteredamount,setAmount] = useState()
+    const [entereddate,setDate] = useState()
+    const [enteredLocation,setLocation] = useState()
     const [activeForm,setActiveForm] = useState(true)
-    const moneyRef = useRef()
-    const descriptionRef = useRef()
-    const categoryRef = useRef()
 
-    function getRandomInt(min,max) {
-        return min + Math.floor(Math.random() * (max - min + 1));
+    const calcDate = (tem) =>{
+        let d = tem.split('-')
+        console.log(d)
+        let x = new Date(parseInt(d[0]), parseInt(d[1]), parseInt(d[2]))
+        console.log(x)
+        return(x)
+
     }
 
-
+    const titleChangeHandler = (event) =>{
+        setTitle(event.target.value)
+    }
+    const amountChangeHandler = (event) =>{
+        setAmount(event.target.value)
+    }
+    const dateChangeHandler = (event) =>{
+        setDate(event.target.value)
+        // calcDate(entereddate)
+    }
+    const locationChangeHandler = (event) =>{
+        setLocation(event.target.value)
+    }
     const submitHandler = (e) =>{
         e.preventDefault()
-        let enteredDescription =  descriptionRef.current.value
-        let enteredAmount = moneyRef.current.value
-        let enteredCategory = categoryRef.current.value
-
-        if(enteredAmount && enteredCategory && enteredDescription){
-            let code = ''
-            let s = enteredDescription.split(' ')
-            s.forEach(cc=>{
-              let temp = cc.split('')
-              code = code+temp[0]
-            })
-            code = code+getRandomInt(1,199)
-            const enteredData = {
-                id:code,
-                description :  enteredDescription,
-                amount : enteredAmount,
-                category : enteredCategory
-            }
-            console.log(enteredData)
-            expCtx.addExpence(enteredData)
+        const enteredData = {
+            title :  enteredtitle,
+            amount : enteredamount,
+            date :   calcDate(entereddate),
+            LocationOfExpenditure: enteredLocation
+        }
+        console.log(enteredData)
+        if(enteredData.title && enteredData.amount && enteredData.date && enteredData.LocationOfExpenditure){
+            props.onSaveExpenseData(enteredData)
+            setTitle('')
+            setAmount('')
+            setDate('')
+            setLocation('')
         }
         else{
             window.alert("Please Enter All values")
@@ -56,24 +63,20 @@ return (
         <form onSubmit={submitHandler}>
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
-                    <label htmlFor="title">Description</label>
-                    <input id='title' ref={descriptionRef} type="text" />
+                    <label htmlFor="title">Title</label>
+                    <input id='title' value={enteredtitle} onChange={titleChangeHandler} type="text" />
                 </div>
                 <div className='new-expense__control'>
                     <label htmlFor="amount">Amount</label>
-                    <input id='amount' ref={moneyRef} type="number" min="0.1" step="0.1"/>
+                    <input id='amount' value={enteredamount} onChange={amountChangeHandler} type="number" min="0.1" step="0.1"/>
                 </div>
                 <div className='new-expense__control'>
-                    <label htmlFor="category">Category</label>
-                    <select ref={categoryRef} name="" id="">
-                        <option value="Food">Food</option>
-                        <option value="Travel">Feul and Travel</option>
-                        <option value="Medical">Medical</option>
-                        <option value="Stationary">Stationary</option>
-                        <option value="Grocery">Grocery</option>
-                        <option value="Clothes">Clothing</option>
-                        <option value="Others">Others</option>
-                    </select>
+                    <label htmlFor="location">Location</label>
+                    <input id='location' value={enteredLocation} onChange={locationChangeHandler} type="text" />
+                </div>
+                <div className='new-expense__control'>
+                    <label htmlFor="date">Date</label>
+                    <input id='date' value={entereddate} onChange={dateChangeHandler} type="date" min="2019-01-01" max ="2022-12-31"/>
                 </div>
                 <div className='new-expense__actions'>
                     <button type='submit'>Add Expense</button>
