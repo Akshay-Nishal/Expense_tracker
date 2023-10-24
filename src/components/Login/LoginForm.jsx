@@ -7,6 +7,7 @@ import axios from 'axios';
 // import { unstable_HistoryRouter } from 'react-router-dom';
 const API_KEY = 'AIzaSyD_wbBxYY-wn1p-CwM8sMA8OSqKorbLUSI'
 const urlf = 'https://crudcrud.com/api/61e24d3555214211b01f03433130d1f7'
+const resetPassURL = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key='
 
 
 
@@ -16,8 +17,10 @@ const LoginForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading,setLoading] = useState(false)
   const emailInputRef = useRef()
+  const forgotemailInputRef = useRef()
   const passInputRef = useRef()
   const confPassRef = useRef()
+  const [forgotPass, setforgotPass] = useState(false)
 
   // const getonlineData =(mail)=>{
   //   let data = []
@@ -148,6 +151,33 @@ const LoginForm = () => {
       }
     }
     
+
+    const closeForgotPass =()=>{
+      setforgotPass(false)
+    }
+
+    const openForgotPass =()=>{
+      setforgotPass(true)
+    }
+
+    const resetPass=()=>{
+      const entEmail = forgotemailInputRef.current.value
+      console.log(entEmail)
+      axios.post(`${resetPassURL}${API_KEY}`,
+      {
+        requestType:"PASSWORD_RESET",
+        email:entEmail
+      })
+      .then(res=>{
+        console.log(res)
+        window.alert("Reset mail sent successfully")
+      })
+      .catch(err=>{
+        console.log(err.message)
+        window.alert(err.message+ ' Please check entered email')
+      })
+    }
+
     
     let content = <button onClick={loginFormSubmitHandler}>{isLogin?'Login':'Create Account'}</button>
     
@@ -158,6 +188,13 @@ const LoginForm = () => {
     return (
       <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+      {forgotPass && <div className={classes.forgotPass}>
+        <label htmlFor="resetPass"><h2>Enter Email</h2></label>
+        <br />
+        <input ref={forgotemailInputRef} type="text" id="resetPass" />
+        <button className={classes.reset} onClick={resetPass} >Reset</button>
+        <button className={classes.close} onClick={closeForgotPass} >Close</button>
+      </div>}
       <form >
 
         <div className={classes.control}>
@@ -174,6 +211,7 @@ const LoginForm = () => {
             required
           />
         </div>
+        {isLogin && <button onClick={openForgotPass} style={{marginTop:'20px'}}>Forgot Password</button> }
 
         {!isLogin && <div className={classes.control}>
           <label htmlFor='confpassword'>Confirm Password</label>
