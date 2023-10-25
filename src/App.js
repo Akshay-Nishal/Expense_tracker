@@ -17,14 +17,9 @@ const App = () => {
   const userCtx = useContext(UserContext)
   const [welcomeShow,setWelcome]=useState(false)
   const [login,setlogin] = useState(false)
-  
-  useEffect(() => {
-    if(localStorage.getItem('isLogin')==='true'){
-      console.log("Heree")
-      setWelcome(true)
-      userCtx.setlogin(true)
-      userCtx.setCurrentUserData(JSON.parse(localStorage.getItem('currentUserData')))
-      axios.get(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`).then(res=>{
+
+  const getUserData =()=>{
+    axios.get(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`).then(res=>{
         if(res.data!=null){
           console.log(res.data)
           let d = []
@@ -37,6 +32,16 @@ const App = () => {
           expCtx.onRefresh(d)
         }
       })
+  }
+  
+  useEffect(() => {
+    if(localStorage.getItem('isLogin')==='true'){
+      console.log("Heree")
+      setWelcome(true)
+      userCtx.setlogin(true)
+      userCtx.setCurrentUserData(JSON.parse(localStorage.getItem('currentUserData')))
+      getUserData()
+      
     }
   }, [])
   
@@ -46,7 +51,7 @@ const App = () => {
   
   return (
     <BrowserRouter>
-      {!welcomeShow && <Welcome welcomeClose={welcomeClose}/>}
+      {/* {welcomeShow && <Welcome welcomeClose={welcomeClose}/>} */}
       <HeaderNav/>
 
       <Routes>
@@ -59,7 +64,7 @@ const App = () => {
         </>
         :
         <>
-        <Route path="/login" element={<LoginPage/>} ></Route>
+        <Route path="/login" element={<LoginPage onlogin={getUserData}/>} ></Route>
         <Route path="*" element={<Navigate to='/login'/>} ></Route>
         </>
         }

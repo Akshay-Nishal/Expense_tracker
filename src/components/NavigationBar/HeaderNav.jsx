@@ -3,9 +3,13 @@ import { Link,useNavigate} from 'react-router-dom';
 import { UserContext } from '../../Contexts/userContext';
 // import axios from 'axios';
 import './Header.css'
+import { ExpenseContext } from '../../Contexts/expenseContext';
 
 
 const HeaderNav = (props) =>{
+  const userCtx = useContext(UserContext)
+  const expCtx = useContext(ExpenseContext)
+
   const history = useNavigate()
   useEffect(() => {
     if(!localStorage.getItem('isLogin')){
@@ -14,11 +18,11 @@ const HeaderNav = (props) =>{
     }
   }, [])
 
-  const userCtx = useContext(UserContext)
 
   const logoutHandler = () =>{
     userCtx.setCurrentUserData('')
     userCtx.setlogin(false)
+    expCtx.clearData()
     localStorage.clear()
     history('/login', { replace: true })
   }

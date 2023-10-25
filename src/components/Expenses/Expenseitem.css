@@ -93,3 +93,35 @@
     margin-top: 15px;
     margin-left: 20px;
   }
+
+
+
+  .editform{
+    padding: 5px 10px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 7px;
+    position: absolute;
+  }
+
+  .editform label{
+    margin-right: 10px;
+  }
+
+  .editform input {
+    margin-right: 25px;
+  }
+
+  .saveButton{
+    background-color: rgb(58, 240, 58);
+    border: 2px solid rgb(2, 86, 2);
+  }
+
+  .closeButton{
+    background-color: yellow;
+    border: 2px solid orange;
+  }
+
+  .openEdit{
+    background-color: orange;
+  }

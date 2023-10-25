@@ -11,7 +11,7 @@ const resetPassURL = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOob
 
 
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   // const history = useNavigate()
   const userCtx = useContext(UserContext)
   const [isLogin, setIsLogin] = useState(true);
@@ -97,6 +97,7 @@ const LoginForm = () => {
           localStorage.setItem('isLogin',true)
           localStorage.setItem('currentUserData',JSON.stringify(data))
           localStorage.setItem('currentEmail',enteredEmail.replace("@",'').replace('.',''))
+          props.onlogin()
             // window.alert("Welcome To Expence Tracker")
             // var ctime = new Date()
             // localStorage.setItem('time',ctime.getMinutes())

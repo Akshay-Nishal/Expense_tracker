@@ -6,7 +6,9 @@ export const ExpenseContext= createContext({
     expences: [],
     addExpence:(item) => null,
     removeExpence:(id) => null,
-    onRefresh:(data)=>null
+    onRefresh:(data)=>null,
+    clearData:()=>null,
+    updateExpence:()=>null,
 
 }) 
 
@@ -37,8 +39,36 @@ const expenceReducer = (state,action) =>{
     }
   }
   if(action.type==='Del'){
-    console.log("Deleting Item")
-    console.log(action.id)
+    let ind = state.expences.findIndex((exp)=>exp.id===action.id)
+    console.log(ind)
+    if(ind===0){
+      newList.splice(0,1)
+      console.log(newList)
+    }
+    else{
+      newList.splice(ind,ind)
+      console.log(newList)
+    }
+    uploadData(newList)
+    return{
+      expences:newList
+    }
+  }
+  if(action.type==='Update'){
+    let ind = state.expences.findIndex((exp)=>exp.id===action.data.id)
+    console.log(ind)
+    newList[ind].description=action.data.description
+    newList[ind].amount = action.data.amount
+    uploadData(newList)
+    return{
+      expences:newList
+    }
+  }
+  if(action.type==='Logout'){
+    console.log("Data Cleared")
+    return{
+      expences:action.data
+    }
   }
   if(action.type==='SetData'){
     console.log("Fetched data from firebase : ")
@@ -60,14 +90,23 @@ export const ExpenseProvider = ({children})=>{
   const removeExp = (id) =>{
     dispatchState({type:'Del',id:id})
   }
+  const updateExp = (data) =>{
+    dispatchState({type:'Update',data:data})
+  }
   const setData = (data) =>{
     dispatchState({type:'SetData',data:data})
+  }
+  const clearDa = () =>{
+    console.log("Logginh oit")
+    dispatchState({type:'Logout',data:[]})
   }
     const value = 
     { expences:expenceState.expences,
       addExpence:addExp,
       removeExpence:removeExp,
       onRefresh:setData,
+      clearData:clearDa,
+      updateExpence:updateExp,
     }
 
 

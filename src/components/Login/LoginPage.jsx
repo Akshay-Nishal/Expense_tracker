@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 
-export default function LoginPage() {
+export default function LoginPage(props) {
     const userCtx = useContext(UserContext)
   return (
     <>
@@ -16,7 +16,7 @@ export default function LoginPage() {
         </center>
     </div>
         :
-    <LoginForm/>
+    <LoginForm onlogin={props.onlogin}/>
     }
     </>
   )
