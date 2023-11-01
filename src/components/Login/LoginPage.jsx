@@ -1,22 +1,21 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import LoginForm from './LoginForm'
-import { UserContext } from '../../Contexts/userContext'
-import axios from 'axios'
+import {useSelector} from 'react-redux'
 
 
 
 export default function LoginPage(props) {
-    const userCtx = useContext(UserContext)
+  const auth = useSelector(state=>state.auth.isLogin)
   return (
     <>
-    {userCtx.isLogin?
+    {auth?
     <div className='loginSuccess'>
         <center>
         <h3 style={{marginTop:'175px',marginBottom:'175px'}}>Login Successful</h3>
         </center>
     </div>
         :
-    <LoginForm onlogin={props.onlogin}/>
+    <LoginForm welcomeOpen={props.welcomeOpen} onlogin={props.onlogin}/>
     }
     </>
   )

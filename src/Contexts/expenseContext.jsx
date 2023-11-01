@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext,useReducer,useState} from "react";
+import { createContext,useReducer} from "react";
 
 
 export const ExpenseContext= createContext({
@@ -13,24 +13,49 @@ export const ExpenseContext= createContext({
 }) 
 
 const uploadData =(items)=>{
-  axios.post(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`,{
-    expences:items
-  })
+  axios.get(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`)
   .then(res=>{
     console.log(res)
+    if(res.data==null){
+      console.log('No data')
+      axios.post(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`,{
+        expences:items
+      }).then(res=>{console.log(res.data)}).catch(err=>{console.log(err.message)})
+    }
+    else{
+      let key
+      for(let k in res.data){
+        key = k
+        break;
+      }
+      console.log(res.data[key])
+      axios.put(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}/${key}.json`,{
+        expences:items
+      }).then(res=>{console.log(res.data)}).catch(err=>{console.log(err.message)})
+    }
   })
-  .catch(err=>{
-    console.log(err.message)
-  })
+  .catch(err=>{console.log(err.message)})
+  // axios.post(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`,{
+  //   expences:items
+  // })
+  // .then(res=>{
+  //   console.log(res)
+  // })
+  // .catch(err=>{
+  //   console.log(err.message)
+  // })
 }
 
 const defaultExpenses = {
-  expences:[]}
+  expences:[]
+}
 
 
 const expenceReducer = (state,action) =>{
   let newList = state.expences
   if(action.type==='Add'){
+    console.log(newList)
+    console.log(action.item)
     newList.push(action.item)
     uploadData(newList)
 
@@ -71,8 +96,8 @@ const expenceReducer = (state,action) =>{
     }
   }
   if(action.type==='SetData'){
-    console.log("Fetched data from firebase : ")
-    console.log(action.data)
+    // console.log("Fetched data from firebase : ")
+    // console.log(action.data)
     return{
       expences:action.data
     }

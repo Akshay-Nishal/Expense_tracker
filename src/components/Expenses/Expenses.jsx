@@ -1,24 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import Expenseitem from './Expenseitem'
 import './Expenseitem.css'
-import { ExpenseContext } from '../../Contexts/expenseContext'
+import {useSelector} from 'react-redux'
+
+
 
 
 function Expenses(props) {
-  let expCtx = useContext(ExpenseContext)
+  const exp = useSelector(state=>state.expence.expences)
   return (
 
     <div className='expenses'>
-      { (expCtx.expences.length===0)?
+      { (exp.length===0)?
         <div className='expenses-alert'>No Expense here. Please add more...</div>
         :
-        (expCtx.expences.length===1)?
+        (exp.length===1)?
         <div className='expenses-alert'>Only single Expense here. Please add more...</div>
         :
         <></>
       }
       {
-        expCtx.expences.map((item)=>{  
+        exp.map((item)=>{  
           return(
             <Expenseitem
             key={item.id}

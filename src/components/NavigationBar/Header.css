@@ -49,3 +49,8 @@ a{
     background-color: rgb(255, 115, 0);
     border: 2px solid red;
 }
+
+.premium{
+    margin-right: 25px;
+    background-color: gold;
+}

@@ -1,10 +1,13 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import './ExpenseForm.css'
-import { ExpenseContext } from '../../Contexts/expenseContext'
+import { useDispatch} from 'react-redux'
+import { expenceActions } from '../../store/store'
+
 
 
 function ExpenseForm(props) {
-    const expCtx = useContext(ExpenseContext)
+    // const exp = useSelector(state=>state.expence.expences)
+    const dispatch = useDispatch()
     const [activeForm,setActiveForm] = useState(true)
     const moneyRef = useRef()
     const descriptionRef = useRef()
@@ -35,8 +38,7 @@ function ExpenseForm(props) {
                 amount : enteredAmount,
                 category : enteredCategory
             }
-            // console.log(enteredData)
-            expCtx.addExpence(enteredData)
+            dispatch(expenceActions.add(enteredData))
         }
         else{
             window.alert("Please Enter All values")

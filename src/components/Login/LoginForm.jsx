@@ -1,19 +1,21 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef} from 'react';
 import classes from './LoginForm.module.css';
-import { UserContext } from '../../Contexts/userContext';
-// import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import { useDispatch} from 'react-redux'
+import { authActions } from '../../store/store';
+
 
 // import { unstable_HistoryRouter } from 'react-router-dom';
 const API_KEY = 'AIzaSyD_wbBxYY-wn1p-CwM8sMA8OSqKorbLUSI'
-const urlf = 'https://crudcrud.com/api/61e24d3555214211b01f03433130d1f7'
+//const urlf = 'https://crudcrud.com/api/61e24d3555214211b01f03433130d1f7'
 const resetPassURL = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key='
 
 
 
 const LoginForm = (props) => {
-  // const history = useNavigate()
-  const userCtx = useContext(UserContext)
+  // const auth = useSelector(state=>state.auth.isLogin)
+  const dispatch = useDispatch()
+  // console.log(auth)
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading,setLoading] = useState(false)
   const emailInputRef = useRef()
@@ -92,12 +94,12 @@ const LoginForm = (props) => {
           })
         .then(data=>{
           // console.log(data)
-          userCtx.setlogin(true)
-          userCtx.setCurrentUserData(data)
+          dispatch(authActions.login(data))
           localStorage.setItem('isLogin',true)
           localStorage.setItem('currentUserData',JSON.stringify(data))
           localStorage.setItem('currentEmail',enteredEmail.replace("@",'').replace('.',''))
           props.onlogin()
+          props.welcomeOpen()
             // window.alert("Welcome To Expence Tracker")
             // var ctime = new Date()
             // localStorage.setItem('time',ctime.getMinutes())
@@ -112,17 +114,19 @@ const LoginForm = (props) => {
         }
     else{
       const enteredConfPass = confPassRef.current.value
-          fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
-          {
-            method:'POST',
-            body:JSON.stringify({
-              email:enteredEmail,
-              password:enteredPass,
-              returnSecureToken:true
-            }),
-            headers:{
-              'Content-Type':'application/json'
-            }
+      if(enteredPass===enteredConfPass){
+
+        fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+        {
+          method:'POST',
+          body:JSON.stringify({
+            email:enteredEmail,
+            password:enteredPass,
+            returnSecureToken:true
+          }),
+          headers:{
+            'Content-Type':'application/json'
+          }
         })
         .then(res=>{
           setLoading(false)
@@ -138,9 +142,8 @@ const LoginForm = (props) => {
           }
         })
         .then(data=>{
+          dispatch(authActions.login(data))
           console.log(data)
-          userCtx.setlogin(true)
-          userCtx.setCurrentUserData(data)
           localStorage.setItem('isLogin',true)
           localStorage.setItem('currentUserData',JSON.stringify(data))
           localStorage.setItem('currentEmail',enteredEmail.replace("@",'').replace('.',''))
@@ -150,7 +153,11 @@ const LoginForm = (props) => {
           console.log(error)
         })
       }
+      else{
+        window.alert('Passsword and Confirm password doesnt match!!!')
+      }
     }
+  }
     
 
     const closeForgotPass =()=>{

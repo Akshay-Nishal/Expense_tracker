@@ -1,7 +1,8 @@
 import axios from 'axios'
-import React, { useContext, useEffect, useRef } from 'react'
-import { UserContext } from '../../Contexts/userContext'
+import React, { useEffect, useRef } from 'react'
 import './ProfilePage.css'
+import {useSelector, useDispatch} from 'react-redux'
+import { authActions } from '../../store/store'
 
 
 const updateUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:update?key='
@@ -12,12 +13,14 @@ const verifyEmail = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobC
 
 
 function ProfilePage() {
-    const userCtx = useContext(UserContext)
-    const nameRef = useRef()
-    const photoUrlRef = useRef()
+    const auth = useSelector(state=>state.auth)
+    const dispatch = useDispatch()
+    console.log(auth)
+    const nameRef = useRef('Name')
+    const photoUrlRef = useRef('Photo URL')
 
     const VerifyEmail=()=>{
-        let id=userCtx.currentUserData['idToken']
+        let id=auth.currentUserData['idToken']
         console.log("Verify")
         axios.post(`${verifyEmail}${API_KEY}`,{
             requestType : "VERIFY_EMAIL",
@@ -37,7 +40,7 @@ function ProfilePage() {
         const enteredPhotoUrl = photoUrlRef.current.value.trim()
         // console.log(userCtx.currentUserData)
         if(enteredName && enteredPhotoUrl){
-            let id=userCtx.currentUserData['idToken']
+            let id=auth.currentUserData['idToken']
             console.log(enteredName,enteredPhotoUrl)
             console.log("_id: ",id)
             axios.post(`${updateUrl}${API_KEY}`,{
@@ -50,8 +53,9 @@ function ProfilePage() {
             })
             .then(res=>{
                 console.log(res.data)
-                localStorage.setItem('currentUserData',res.data)
-                userCtx.setCurrentUserData(res.data)
+                localStorage.setItem('currentUserData',(JSON.stringify(res.data)))
+                dispatch(authActions.login(res.data))
+
                 nameRef.current.value = ''
                 photoUrlRef.current.value=''
             })
@@ -66,17 +70,17 @@ function ProfilePage() {
 
     }
     useEffect(() => {
-        let id=userCtx.currentUserData['idToken']
+        let id=auth.currentUserData['idToken']
         axios.post(`${lookupUrl}${API_KEY}`,{
             idToken:id
         })
         .then(res=>{
-            console.log(res.data.users)
+            // console.log(res.data.users)
+            // console.log(res.data.users[0].displayName);
             nameRef.current.value=res.data.users[0].displayName
-            photoUrlRef.current.value=res.data.users[0].photoUrl
-
+            photoUrlRef.current.value=res.data.users[0]. photoUrl
         })
-    }, [])
+    })
     
 
   return (

@@ -1,17 +1,23 @@
 import ExpenseDetails from './ExpenseDetails'
 import './Expenseitem.css'
 import Card from '../UI/Card'
-import { useContext, useRef, useState } from 'react'
-import { ExpenseContext } from '../../Contexts/expenseContext'
+import { useRef, useState } from 'react'
+import {useDispatch} from 'react-redux'
+import { expenceActions } from '../../store/store'
+
+
+
 
 const Expenseitem =(props)=> {
+  // const exp = useSelector(state=>state.expence.expences)
+  const dispatch = useDispatch()
   const updatedDescription = useRef()
   const updatedAmount = useRef()
-  let expCtx = useContext(ExpenseContext)
   const [showEdit,setShowEdit] = useState(false)  
   function delItem(id) {
     console.log("Deleted Successfully")
-    expCtx.removeExpence(id)
+    // expCtx.removeExpence(id)
+    dispatch(expenceActions.delete(id))
   }
   const openEdit =()=>{
     setShowEdit(true)
@@ -29,7 +35,8 @@ const Expenseitem =(props)=> {
         amount:newAmount
       }
       console.log("Updated successfully")
-      expCtx.updateExpence(data)
+      // expCtx.updateExpence(data)
+      dispatch(expenceActions.update(data))
       closeEdit()
     }
     else{
@@ -49,7 +56,6 @@ const Expenseitem =(props)=> {
           <button className='closeButton' onClick={closeEdit}>Cancel</button>
           </div>
         </div>}
-        {/* <ExpenseDate Date={props.date}/> */}
         <ExpenseDetails category={props.category} title = {props.description} amount={props.amount} />
         <button className='openEdit' onClick={openEdit}>Edit</button>
         <button className='Del' onClick={() => delItem(props.id)}>Delete Item</button>

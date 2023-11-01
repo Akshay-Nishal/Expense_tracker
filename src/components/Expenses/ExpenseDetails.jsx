@@ -1,5 +1,5 @@
 const ExpenseDetails = (props) => {
-    let {title,location,amount,category} = props
+    let {title,amount,category} = props
   return (
     <div className="expense-item__description">
         <h2>{title}</h2>
