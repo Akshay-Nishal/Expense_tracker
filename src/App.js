@@ -6,14 +6,17 @@ import ExpenseApp from './components/Expenses/ExpenseApp';
 import ProfilePage from './components/Profile/ProfilePage';
 import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux'
-import { authActions, expenceActions } from './store/store';
+import { authActions, expenceActions, premiumActions } from './store/store';
 import Welcome from './components/NavigationBar/Welcome'
+import './App.css'
 
 const App = () => {
   // const exp = useSelector(state=>state.expence.expences)
   const auth = useSelector(state=>state.auth.isLogin)
   const dispatch = useDispatch()
   const [welcomeShow,setWelcome]=useState(false)
+  const prem = useSelector(state=>state.prem.premiumActivate)
+
 
 
   const getUserData =()=>{
@@ -39,6 +42,10 @@ const App = () => {
     if(localStorage.getItem('isLogin')==='true'){
       setWelcome(true)
       dispatch(authActions.login(JSON.parse(localStorage.getItem('currentUserData'))))
+      if(localStorage.getItem('prem')){
+        // console.log("Heree")
+        dispatch(premiumActions.setPremium(JSON.parse(localStorage.getItem('prem'))))
+      }
       getUserData()
     }
   },[])
@@ -51,8 +58,10 @@ const App = () => {
   }
   
   return (
+    <div className={prem===true?'dark':'light'}>
+
     <BrowserRouter>
-      {welcomeShow && <Welcome welcomeClose={welcomeClose}/>}
+      {/* {welcomeShow && <Welcome welcomeClose={welcomeClose}/>} */}
       <HeaderNav/>
 
       <Routes>
@@ -71,6 +80,7 @@ const App = () => {
         }
       </Routes>
     </BrowserRouter>
+        </div>
     );
   }
   export default App;

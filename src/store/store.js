@@ -5,7 +5,7 @@ import axios from 'axios'
 const uploadData =(items,amount)=>{
     axios.get(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`)
     .then(res=>{
-      console.log(res)
+    //   console.log(res)
       if(res.data==null){
         console.log('No data')
         axios.post(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`,
@@ -22,7 +22,7 @@ const uploadData =(items,amount)=>{
           key = k
           break;
         }
-        console.log(res.data[key])
+        // console.log(res.data[key])
         axios.put(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}/${key}.json`,{
           expences:items,
           totalAmount:amount
@@ -45,9 +45,9 @@ const expenceSlice = createSlice({
             let newList = JSON.parse(JSON.stringify(state.expences))
             let newAmount = parseInt(JSON.parse(JSON.stringify(state.totalAmount)))
             newList.push(action.payload)
-            console.log(newAmount)
+            // console.log(newAmount)
             newAmount = newAmount + parseInt(action.payload.amount)
-            console.log(newAmount)
+            // console.log(newAmount)
             uploadData(newList,newAmount)
             state.expences = newList
             state.totalAmount = newAmount
@@ -58,25 +58,25 @@ const expenceSlice = createSlice({
             let ind = newList.findIndex((exp)=>exp.id===action.payload)
             let newAmount = parseInt(JSON.parse(JSON.stringify(state.totalAmount)))
             newAmount = newAmount - newList[ind].amount
-            console.log(ind)
+            // console.log(ind)
             if(ind===0){
                 newList.splice(0,1)
-                console.log(newList)
+                // console.log(newList)
             }
             else{
                 newList.splice(ind,ind)
-                console.log(newList)
+                // console.log(newList)
             }
-            console.log(newAmount)
+            // console.log(newAmount)
             uploadData(newList,newAmount)
             state.expences=newList
             state.totalAmount = newAmount
         },
         update(state,action){
             let newList = JSON.parse(JSON.stringify(state.expences))
-            console.log("Inside store delete with data : ",action.payload)
+            // console.log("Inside store delete with data : ",action.payload)
             let ind = newList.findIndex((exp)=>exp.id===action.payload.id)
-            console.log(ind)
+            // console.log(ind)
             let newAmount = parseInt(JSON.parse(JSON.stringify(state.totalAmount)))
             newList[ind].description=action.payload.description
             newList[ind].amount = action.payload.amount
@@ -116,14 +116,33 @@ const authSlice = createSlice({
     }
 }) 
 
+const initialPremium = {
+    premiumActivate : false
+}
+
+const premiumSlice = createSlice({
+    name:'premium',
+    initialState:initialPremium,
+    reducers:{
+        setPremium(state,action){
+            state.premiumActivate = action.payload
+        }
+    }
+}) 
+
 
 
 const store = configureStore({      //it  helps to merge multople slice reducer 
-    reducer:{expence:expenceSlice.reducer,auth:authSlice.reducer}
+    reducer:{
+        expence:expenceSlice.reducer,
+        auth:authSlice.reducer,
+        prem:premiumSlice.reducer
+    }
     // reducer:{counter:counterSlice.reducer,}    by this we can merge multiple reducer
 })
  
 export const authActions = authSlice.actions   //it autogenerates actions for usuth
 export const expenceActions = expenceSlice.actions
+export const premiumActions = premiumSlice.actions
 
 export default store
