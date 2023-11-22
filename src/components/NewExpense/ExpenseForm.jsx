@@ -59,7 +59,7 @@ return (
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
                     <label htmlFor="title">Description</label>
-                    <input id='title' defaultValue={'Momos'} ref={descriptionRef} type="text" />
+                    <input id='title' defaultValue={'Item'} ref={descriptionRef} type="text" />
                 </div>
                 <div className='new-expense__control'>
                     <label htmlFor="amount">Amount</label>

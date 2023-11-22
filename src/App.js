@@ -32,6 +32,9 @@ const App = () => {
           }
           // console.log(res.data)
           d=res.data[k].expences 
+          if(!d){
+            d = []
+          }
           t=parseInt(res.data[k].totalAmount)
           dispatch(expenceActions.refresh({data:d,am:t}))
         }

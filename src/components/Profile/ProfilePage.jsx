@@ -15,7 +15,7 @@ const verifyEmail = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobC
 function ProfilePage() {
     const auth = useSelector(state=>state.auth)
     const dispatch = useDispatch()
-    console.log(auth)
+    // console.log(auth)
     const nameRef = useRef('Name')
     const photoUrlRef = useRef('Photo URL')
 
@@ -26,7 +26,10 @@ function ProfilePage() {
             requestType : "VERIFY_EMAIL",
             idToken : id,
         })
-        .then(res=>{console.log(res)})
+        .then(res=>{
+            // console.log(res)
+            window.alert("Email Verification Link Sent")
+        })
         .catch(err=>{
             console.log(err.message)
             window.alert(err.message)
@@ -41,8 +44,8 @@ function ProfilePage() {
         // console.log(userCtx.currentUserData)
         if(enteredName && enteredPhotoUrl){
             let id=auth.currentUserData['idToken']
-            console.log(enteredName,enteredPhotoUrl)
-            console.log("_id: ",id)
+            // console.log(enteredName,enteredPhotoUrl)
+            // console.log("_id: ",id)
             axios.post(`${updateUrl}${API_KEY}`,{
                 idToken:id,
                 headers:{
@@ -52,13 +55,19 @@ function ProfilePage() {
                 photoUrl:enteredPhotoUrl
             })
             .then(res=>{
-                console.log(res.data)
-                localStorage.setItem('currentUserData',(JSON.stringify(res.data)))
-                dispatch(authActions.login(res.data))
-
-                nameRef.current.value = ''
-                photoUrlRef.current.value=''
+                // console.log(res.data)
+                window.alert("Profile updated successfully!!!")
+                // localStorage.setItem('currentUserData',(JSON.stringify(res.data)))
+                // dispatch(authActions.login(res.data))
             })
+            // .then(res=>{
+            //     console.log(res.data)
+            //     localStorage.setItem('currentUserData',(JSON.stringify(res.data)))
+            //     dispatch(authActions.login(res.data))
+            //     nameRef.current.value = ''
+            //     photoUrlRef.current.value=''
+            //     console.log("Successfully set details!")
+            // })
             .catch(err=>{
                 console.log(err)
                 window.alert(err.message)
@@ -77,8 +86,9 @@ function ProfilePage() {
         .then(res=>{
             // console.log(res.data.users)
             // console.log(res.data.users[0].displayName);
-            nameRef.current.value=res.data.users[0].displayName
-            photoUrlRef.current.value=res.data.users[0]. photoUrl
+            nameRef.current.value=(res.data.users[0].displayName===undefined?'Name':res.data.users[0].displayName)
+            photoUrlRef.current.value=(res.data.users[0].photoUrl===undefined?'Photo Url':res.data.users[0].photoUrl)
+            // res.data.users[0].photoUrl
         })
     })
     

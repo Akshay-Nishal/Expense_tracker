@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link,useNavigate} from 'react-router-dom';
 import './Header.css'
 import {useSelector, useDispatch} from 'react-redux'
-import { authActions, premiumActions } from '../../store/store';
+import { authActions, expenceActions, premiumActions } from '../../store/store';
 import {CSVLink} from 'react-csv'
 
 
@@ -11,6 +11,8 @@ import {CSVLink} from 'react-csv'
 const HeaderNav = (props) =>{
   const auth = useSelector(state=>state.auth.isLogin)
   const prem = useSelector(state=>state.prem.premiumActivate)
+  const totalAm = useSelector(state=>state.expence.totalAmount)
+  // console.log(totalAm)
   // console.log("Premium State : ",prem)
   const exp = useSelector(state=>state.expence.expences)
   const tot = parseInt(useSelector(state=>state.expence.totalAmount))
@@ -34,6 +36,7 @@ const HeaderNav = (props) =>{
   useEffect(() => {  
     if(!localStorage.getItem('isLogin')){
       console.log("Not logge in")
+      dispatch(expenceActions.logout())
       history('/login', { replace: true })
     }
   },[])

@@ -3,6 +3,9 @@ import {createSlice, configureStore} from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const uploadData =(items,amount)=>{
+    if(items===null || items === undefined){
+        items=[]
+    }
     axios.get(`https://react-ecom-f4305-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${localStorage.getItem('currentEmail')}.json`)
     .then(res=>{
     //   console.log(res)
@@ -79,8 +82,8 @@ const expenceSlice = createSlice({
             // console.log(ind)
             let newAmount = parseInt(JSON.parse(JSON.stringify(state.totalAmount)))
             newList[ind].description=action.payload.description
-            newList[ind].amount = action.payload.amount
-            newAmount = newAmount + action.payload.amount
+            newList[ind].amount = parseInt(action.payload.amount)
+            newAmount = newAmount + parseInt(action.payload.amount)
             uploadData(newList,newAmount)
             state.expences = newList
             state.totalAmount = newAmount

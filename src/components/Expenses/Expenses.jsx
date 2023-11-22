@@ -14,14 +14,14 @@ function Expenses(props) {
   return (
 
     <div className={prem===true? 'expenses dark': 'expenses'}>
-      { (exp.length===0)?
+      {/* { (exp.length===0)?
         <div className='expenses-alert'>No Expense here. Please add more...</div>
         :
         (exp.length===1)?
         <div className='expenses-alert'>Only single Expense here. Please add more...</div>
         :
         <></>
-      }
+      } */}
       {
         exp.map((item)=>{  
           return(
